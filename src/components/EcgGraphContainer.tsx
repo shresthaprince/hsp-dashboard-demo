@@ -14,7 +14,7 @@ query getEcg {
 const EcgGraphContainer = () => {
     const { loading, error, data } = useQuery(GET_ECGS);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <div>Loadings...</div>;
     if (error) return <div>{`Error! ${error.message}`}</div>;
 
     return (
