@@ -21,9 +21,7 @@ const region = AppSyncConfig.Region;
 const auth = {
     type: AppSyncConfig.AuthMode,
     jwtToken: async () => {
-        const token = await getJwtToken()
-        console.log(token);
-
+        const token = await getJwtToken();
         return token
     },
 };

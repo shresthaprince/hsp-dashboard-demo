@@ -1,5 +1,5 @@
 import { ApolloProvider } from '@apollo/client';
-import Demo from './components/Demo';
+import Demo from './components/EcgGraphContainer';
 import client from './config/ApolloClient';
 
 const App = () => {
