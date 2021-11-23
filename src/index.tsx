@@ -17,7 +17,7 @@ const LoggedInUser = () => {
       }
     })
   }, [])
-  return (user ? <App setUser={setUser} /> : <SignInPage setUser={setUser} />);
+  return (user ? <App /> : <SignInPage setUser={setUser} />);
 }
 
 ReactDOM.render(
