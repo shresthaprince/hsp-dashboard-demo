@@ -2753,6 +2753,15 @@ aws-appsync-auth-link@^3.0.7:
     "@aws-sdk/util-hex-encoding" "^3.29.0"
     debug "2.6.9"
 
+aws-appsync-subscription-link@^3.0.9:
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/aws-appsync-subscription-link/-/aws-appsync-subscription-link-3.0.9.tgz#a94f6663e28d400484520bdd7f0527f362bef879"
+  integrity sha512-yaeici7WDMnj/yzATfruYitokJQbzR8cBztzPo1o8MUFUqTj6h36j34k9fwLV6kKd4aNizaDtyUKdFAjogMvaw==
+  dependencies:
+    aws-appsync-auth-link "^3.0.7"
+    debug "2.6.9"
+    url "^0.11.0"
+
 aws-sign2@~0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"
