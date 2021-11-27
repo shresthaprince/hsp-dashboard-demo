@@ -32,10 +32,10 @@ const EcgGraphContainer = () => {
         bottom: 5,
       }}
     >
-      <CartesianGrid vertical={false}  stroke="#243240"/>
+      <CartesianGrid vertical={true}  horizontal={true} stroke="#243240"/>
       <XAxis dataKey="sensorId" tick={{fill:"#fff"}}/>
       <YAxis tick={{fill:"#fff"}} />
-      <Tooltip contentStyle={{backgroundColor:"#8884d8",color:"#fff"}} itemStyle={{color:"#fff"}} cursor={false} />
+      <Tooltip contentStyle={{backgroundColor:"#8884d8",color:"#fff"}} itemStyle={{color:"#fff"}} cursor={true} />
       {/* legend will be usef when we will have multiple sensors */}
       {/* <Legend />  */}
       {/* <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} /> */}
