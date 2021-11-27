@@ -14,13 +14,18 @@ subscription GetRealTimeEcgs {
 
 const EcgGraphContainer = () => {
   const [ecgs, setEcgs] = useState<any>([]);
+  const [itemCounter, setItemCounter] = useState<number>(0);
 
   const { loading, error, data } = useSubscription(REAL_TIME_ECGS);
 
   useEffect(() => {
     if (data && data.onCreateEcg) {
+      setItemCounter(itemCounter + 1);
       let temp = [...ecgs];
-      temp.push(data.onCreateEcg)
+      if (temp.length >= 10) {
+        temp.shift()
+      }
+      temp.push({ ...data.onCreateEcg, count: itemCounter })
       setEcgs(temp)
     }
   }, [data])
@@ -43,7 +48,7 @@ const EcgGraphContainer = () => {
           }}
         >
           <CartesianGrid vertical={true} horizontal={true} stroke="#243240" />
-          <XAxis dataKey="sensorId" tick={{ fill: "#fff" }} />
+          <XAxis dataKey="count" tick={{ fill: "#fff" }} />
           <YAxis tick={{ fill: "#fff" }} />
           <Tooltip contentStyle={{ backgroundColor: "#8884d8", color: "#fff" }} itemStyle={{ color: "#fff" }} cursor={true} />
           {/* legend will be usef when we will have multiple sensors */}
