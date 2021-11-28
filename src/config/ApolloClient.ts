@@ -3,6 +3,7 @@ import {
 } from '@apollo/client';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
 import { createAuthLink } from 'aws-appsync-auth-link';
+import { createSubscriptionHandshakeLink } from 'aws-appsync-subscription-link';
 import AppSyncConfig from './AppSync';
 import UserPool from './UserPool';
 
@@ -25,11 +26,13 @@ const auth = {
         return token
     },
 };
+
+const httpLink = createHttpLink({ uri: url })
 const link = ApolloLink.from([
     // @ts-ignore
     createAuthLink({ url, region, auth }),
     // @ts-ignore
-    createHttpLink({ uri: url }),
+    createSubscriptionHandshakeLink({ url, region, auth }, httpLink)
 ]);
 const client = new ApolloClient({
     link,
