@@ -1,11 +1,11 @@
 import { ApolloProvider } from '@apollo/client';
-import Demo from './components/EcgGraphContainer';
+import EcgGraph from './components/EcgGraph';
 import client from './config/ApolloClient';
 
 const App = () => {
   return (
     <ApolloProvider client={client}>
-      <Demo />
+      <EcgGraph />
     </ApolloProvider>
   )
 }
