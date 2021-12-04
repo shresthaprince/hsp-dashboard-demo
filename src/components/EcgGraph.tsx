@@ -18,7 +18,7 @@ const EcgGraph = () => {
             let temp = [...ecgs];
             ecgs.unshift(generateRandomData());
             setEcgs(temp);
-        }, 100)
+        }, 500)
         return () => clearInterval(interval)
     }, [])
 
@@ -40,7 +40,7 @@ const EcgGraph = () => {
                     <XAxis dataKey="time" tick={{ fill: "#fff" }} />
                     <YAxis tick={{ fill: "#fff" }} />
                     <Tooltip contentStyle={{ backgroundColor: "#8884d8", color: "#fff" }} itemStyle={{ color: "#fff" }} cursor={true} />
-                    <Line type="monotone" dataKey="ecg" stroke="#8884d8" strokeWidth="1" />
+                    <Line type="monotone" dataKey="ecg" stroke="#8884d8" strokeWidth="1" isAnimationActive={false} />
                 </LineChart>
             </ResponsiveContainer>
         </div>
