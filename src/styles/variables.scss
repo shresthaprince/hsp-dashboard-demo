@@ -3,3 +3,23 @@ body,
 #root {
   height: 100%;
 }
+
+$theme-colors: (
+  "primary": #f20406,
+  "secondary": #36d4ba,
+  "success": #1ce1ac,
+  "info": #ff7d50,
+  "warning": #ffbe0b,
+  "danger": #ff007f,
+  "light": #f7f8fc,
+  "dark": #343434,
+  "white": #ffffff,
+  "black": #000,
+);
+
+@import url("https://fonts.googleapis.com/css2?family=Yantramanav&display=swap");
+
+$orbitron: "Yantramanav", sans-serif;
+.ff-orbitron {
+  font-family: $orbitron !important;
+}

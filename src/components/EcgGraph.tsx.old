@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { useQuery } from "@apollo/client";
+import { useEffect, useState } from "react";
+import { useSubscription } from "@apollo/client";
 import {
   CartesianGrid,
   Legend,
@@ -10,7 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { LIST_ECGS } from "../graphql/subscriptions";
+import { REAL_TIME_ECGS } from "../graphql/subscriptions";
 
 // Number of data points at an instance
 const DATA_POINT_COUNT = 50;
@@ -29,30 +29,19 @@ const EcgGraph = () => {
     })
   );
 
-  const { loading, error, data } = useQuery(LIST_ECGS, {
-    fetchPolicy: "network-only",
-    pollInterval: 1000,
-  });
-  const newData = useMemo(() => {
-    if (data && data.listEcgData) {
-      return data.listEcgData.items;
-    }
-    return [];
-  }, [data]);
+  const { loading, error, data } = useSubscription(REAL_TIME_ECGS);
+  console.log(error);
+
   useEffect(() => {
-    console.log("changed", newData);
-  }, [newData]);
+    if (data?.onCreateEcg) {
+      console.log(data?.onCreateEcg);
 
-  // useEffect(() => {
-  //   if (data?.onCreateEcg) {
-  //     console.log(data?.onCreateEcg);
-
-  //     ecgs.pop();
-  //     let temp = [...ecgs];
-  //     temp.unshift(data?.onCreateEcg);
-  //     setEcgs(temp);
-  //   }
-  // }, [data]);
+      ecgs.pop();
+      let temp = [...ecgs];
+      temp.unshift(data?.onCreateEcg);
+      setEcgs(temp);
+    }
+  }, [data]);
 
   if (loading) return <div style={{ height: 800 }}>Loading</div>;
 
@@ -61,7 +50,7 @@ const EcgGraph = () => {
       <ResponsiveContainer width="100%" aspect={3}>
         <LineChart
           height={2000}
-          data={newData}
+          data={ecgs}
           margin={{
             top: 15,
             right: 0,
