@@ -6,7 +6,6 @@ import reportWebVitals from "./reportWebVitals";
 import SignInPage from "./pages/SignInPage";
 import { CognitoUserSession } from "amazon-cognito-identity-js";
 import UserPool from "./config/UserPool";
-import "./fonts/BebasKai.otf";
 
 const LoggedInUser = () => {
   const [user, setUser] = useState<CognitoUserSession | null>(null);
