@@ -1,35 +1,18 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useQuery } from "@apollo/client";
 import {
   CartesianGrid,
-  Legend,
   Line,
   LineChart,
   ResponsiveContainer,
   Tooltip,
-  XAxis,
   YAxis,
 } from "recharts";
 import { LIST_ECGS } from "../graphql/subscriptions";
-
-// Number of data points at an instance
-const DATA_POINT_COUNT = 50;
-
-type EcgData = {
-  heartRate: number;
-  ecgValue: number;
-  heartRateVariability: number;
-};
+import LoadingSpinner from "./common/LoadingSpinner";
 
 const EcgGraph = () => {
-  const [ecgs, setEcgs] = useState<Array<EcgData>>(
-    new Array(DATA_POINT_COUNT).fill({
-      ecgValue: 0,
-      timeElapsed: 0,
-    })
-  );
-
-  const { loading, error, data } = useQuery(LIST_ECGS, {
+  const { loading, data } = useQuery(LIST_ECGS, {
     fetchPolicy: "network-only",
     pollInterval: 1000,
   });
@@ -43,22 +26,19 @@ const EcgGraph = () => {
     console.log("changed", newData);
   }, [newData]);
 
-  // useEffect(() => {
-  //   if (data?.onCreateEcg) {
-  //     console.log(data?.onCreateEcg);
-
-  //     ecgs.pop();
-  //     let temp = [...ecgs];
-  //     temp.unshift(data?.onCreateEcg);
-  //     setEcgs(temp);
-  //   }
-  // }, [data]);
-
-  if (loading) return <div style={{ height: 800 }}>Loading</div>;
+  if (loading)
+    return (
+      <div
+        style={{ height: 300 }}
+        className="d-flex align-items-center justify-content-center"
+      >
+        <LoadingSpinner />
+      </div>
+    );
 
   return (
-    <div className="bg-black h-100">
-      <ResponsiveContainer width="100%" aspect={3}>
+    <div className="bg-black h-100" style={{ height: 300 }}>
+      <ResponsiveContainer height={300} width="100%" aspect={2}>
         <LineChart
           height={2000}
           data={newData}
@@ -70,8 +50,6 @@ const EcgGraph = () => {
           }}
         >
           <CartesianGrid vertical={true} horizontal={true} stroke="#000" />
-
-          {/* <XAxis dataKey="heartRate" tick={{ fill: "#fff" }} /> */}
           <YAxis tick={{ fill: "#fff" }} stroke="#000" />
           <Tooltip
             contentStyle={{ backgroundColor: "#8884d8", color: "#fff" }}
@@ -86,7 +64,6 @@ const EcgGraph = () => {
             isAnimationActive={false}
             dot={false}
           />
-          <Legend verticalAlign="bottom" height={50} />
         </LineChart>
       </ResponsiveContainer>
     </div>
