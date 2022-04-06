@@ -1,9 +1,9 @@
-import React from "react";
-import { render, screen } from "@testing-library/react";
-import App from "./App";
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import App from './App';
 
-test("renders Health Sensor Platform text", () => {
+test('renders learn react link', () => {
   render(<App />);
-  const textElement = screen.getByText(/Health Sensor Platform/i);
-  expect(textElement).toBeInTheDocument();
+  const linkElement = screen.getByText(/learn react/i);
+  expect(linkElement).toBeInTheDocument();
 });

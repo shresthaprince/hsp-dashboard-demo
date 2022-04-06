@@ -1,0 +1,19 @@
+@import "./variables";
+@import "./fonts";
+@import "./maps";
+@import "../../node_modules/bootstrap/scss/mixins.scss";
+// *** Custom styles *** //
+.recharts-cartesian-grid {
+  background-color: #fff;
+}
+.btn {
+  height: 50px !important
+}
+
+.sidebar {
+  width: 200px;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
