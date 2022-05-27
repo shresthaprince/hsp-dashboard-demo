@@ -5,7 +5,6 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
 import {
@@ -129,7 +128,7 @@ export const SensorDataProvider = ({ children }: SensorDataProviderProps) => {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [dataFetchMode, refetchDataCustom]);
+  }, [dataFetchMode, refetchDataCustom, liveDataFetch]);
 
   const latestEnvData = useMemo(() => {
     if (latestSensorData) {
