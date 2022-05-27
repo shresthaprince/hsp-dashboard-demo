@@ -16,7 +16,8 @@ export const LIST_ECGS = gql`
     listEcgData(filter: { sensorId: { eq: 1 } }, limit: 75) {
       items {
         ecgValue
-        sensorGroup
+        humidity
+        temperature
         sensorId
         timeElapsed
       }

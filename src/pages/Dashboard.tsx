@@ -6,34 +6,39 @@ import NotificationsBlock from "../components/dashboard/NotificationsBlock";
 import OperationDates from "../components/dashboard/OperationDates";
 import StressBlock from "../components/dashboard/StressBlock";
 import TemperatureBlock from "../components/dashboard/TemperatureBlock";
+import TimeBlock from "../components/dashboard/TimeBlock";
+import { SensorDataProvider } from "../context/SensorDataContext";
 
 const Dashboard = () => {
   return (
-    <div className="d-flex flex-grow-1 p-5 flex-column gap-5">
-      <div className="d-flex flex-row gap-5">
-        <div className="d-flex flex-column gap-5 flex-grow-1">
-          <div className="d-flex flex-row gap-3">
-            <BloodO2Block />
-            <TemperatureBlock />
-            <HRVBlock />
-            <StressBlock />
+    <SensorDataProvider>
+      <div className="d-flex flex-grow-1 p-5 flex-column gap-5">
+        <TimeBlock />
+        <div className="d-flex flex-row gap-5">
+          <div className="d-flex flex-column gap-5 flex-grow-1">
+            <div className="d-flex flex-row gap-3">
+              <BloodO2Block />
+              <TemperatureBlock />
+              <HRVBlock />
+              <StressBlock />
+            </div>
+            <HeartRateMonitor />
           </div>
-          <HeartRateMonitor />
+          <div className="d-flex flex-grow-1">
+            <NotificationsBlock />
+          </div>
         </div>
-        <div className="d-flex flex-grow-1">
-          <NotificationsBlock />
-        </div>
-      </div>
 
-      <div className="d-flex flex-row justify-content-between gap-5">
-        <div className="col-5">
-          <GPSLocation />
-        </div>
-        <div className="d-flex flex-grow-1">
-          <OperationDates />
+        <div className="d-flex flex-row justify-content-between gap-5">
+          <div className="col-5">
+            <GPSLocation />
+          </div>
+          <div className="d-flex flex-grow-1">
+            <OperationDates />
+          </div>
         </div>
       </div>
-    </div>
+    </SensorDataProvider>
   );
 };
 
