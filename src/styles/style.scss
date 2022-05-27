@@ -16,4 +16,19 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+.line-chart-svg {
+  g {
+    color: #fff
+  }
+}
+.date-time-picker {
+  height: 50px;
+  .react-datetime-picker__wrapper {
+    border: none
+  }
+  .react-calendar__tile--active {
+    background: #f20406
+  }
+}
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";

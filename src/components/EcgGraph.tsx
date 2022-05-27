@@ -1,71 +1,99 @@
-import { useEffect, useMemo } from "react";
-import { useQuery } from "@apollo/client";
-import {
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  YAxis,
-} from "recharts";
-import { LIST_ECGS } from "../graphql/subscriptions";
-import LoadingSpinner from "./common/LoadingSpinner";
+import * as d3 from "d3";
+import { useCallback, useEffect } from "react";
+import { useSensorData } from "../context/SensorDataContext";
+const dimensions = {
+  width: 575,
+  height: 500,
+  left: 100,
+  right: 50,
+  top: 20,
+  bottom: 70,
+};
 
 const EcgGraph = () => {
-  const { loading, data } = useQuery(LIST_ECGS, {
-    fetchPolicy: "network-only",
-    pollInterval: 1000,
-  });
-  const newData = useMemo(() => {
-    if (data && data.listEcgData) {
-      return data.listEcgData.items;
-    }
-    return [];
-  }, [data]);
-  useEffect(() => {
-    console.log("changed", newData);
-  }, [newData]);
+  const { latestEcgData } = useSensorData();
 
-  if (loading)
-    return (
-      <div
-        style={{ height: 300 }}
-        className="d-flex align-items-center justify-content-center"
-      >
-        <LoadingSpinner />
-      </div>
-    );
+  const draw = useCallback(() => {
+    // Remove current svg
+    d3.select(".line-chart-svg").select("svg").remove();
+    // SVG
+    const svg = d3
+      .select(".line-chart-svg")
+      .append("svg")
+      .attr("width", dimensions.width + dimensions.left + dimensions.right)
+      .attr("height", dimensions.height + dimensions.top + dimensions.bottom)
+      .append("g")
+      .attr("transform", `translate(${dimensions.left},${dimensions.top})`);
+
+    // X
+    const x = d3
+      .scaleTime()
+      .domain(
+        d3.extent(latestEcgData!, (d) => {
+          return d.timeElapsed;
+        }) as any
+      )
+      .range([0, dimensions.width]);
+
+    svg
+      .append("g")
+      .attr("transform", `translate(0, ${dimensions.height})`)
+      .attr("class", "x-axis")
+      .call(d3.axisBottom(x).tickSizeOuter(0).tickPadding(10).tickValues([]))
+      .call((g) => g.select(".domain").remove());
+
+    // Y
+
+    const yDomain = [-200, 400] as number[];
+
+    const y = d3
+      .scaleLinear()
+      .domain([yDomain[0], yDomain[yDomain.length - 1]])
+      .range([dimensions.height, 0]);
+
+    svg
+      .append("g")
+      .call(d3.axisLeft(y).tickSizeOuter(0).tickPadding(10))
+      .call((g) => g.select(".domain").remove());
+
+    svg
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", -dimensions.left)
+      .attr("x", 0 - dimensions.height / 2)
+      .attr("dy", "2em")
+      .style("text-anchor", "middle")
+      .style("fill", "#fff")
+      .text("ECG Value");
+
+    svg
+      .append("path")
+      .datum(latestEcgData)
+      .attr("fill", "none")
+      .attr("stroke", "red")
+      .attr("stroke-width", 1)
+      .attr(
+        "d",
+        // @ts-ignore
+        d3
+          .line()
+          .x((d) => {
+            return x((d as unknown as any).timeElapsed);
+          })
+          .y((d) => {
+            return y((d as unknown as any).ecg);
+          })
+          .curve(d3.curveBasis)
+      );
+  }, [latestEcgData]);
+
+  useEffect(() => {
+    if (latestEcgData) draw();
+  }, [latestEcgData, draw]);
 
   return (
-    <div className="bg-black h-100" style={{ height: 300 }}>
-      <ResponsiveContainer height={300} width="100%" aspect={2}>
-        <LineChart
-          height={2000}
-          data={newData}
-          margin={{
-            top: 15,
-            right: 0,
-            left: 0,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid vertical={true} horizontal={true} stroke="#000" />
-          <YAxis tick={{ fill: "#fff" }} stroke="#000" />
-          <Tooltip
-            contentStyle={{ backgroundColor: "#8884d8", color: "#fff" }}
-            itemStyle={{ color: "#fff" }}
-            cursor={true}
-          />
-          <Line
-            type="monotone"
-            dataKey="ecgValue"
-            stroke="#f20406"
-            strokeWidth="1"
-            isAnimationActive={false}
-            dot={false}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+    <div className="bg-black h-100" style={{ minHeight: 500 }}>
+      <div className="line-chart-svg" />
     </div>
   );
 };

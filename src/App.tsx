@@ -1,10 +1,12 @@
 import { ApolloProvider } from "@apollo/client";
 import { memo, useCallback, useState } from "react";
+import { ToastContainer } from "react-toastify";
 import Logo from "./assets/logo.png";
 import AppText from "./components/common/AppText";
 import client from "./config/ApolloClient";
 import BlankScreen from "./pages/BlankScreen";
 import Dashboard from "./pages/Dashboard";
+import "react-toastify/dist/ReactToastify.css";
 
 type SidebarItemProps = {
   title: string;
@@ -52,6 +54,7 @@ const App = () => {
 
   return (
     <ApolloProvider client={client}>
+      <ToastContainer />
       <div className="bg-black d-flex flex-column h-100">
         <nav className="p-4">
           <img
