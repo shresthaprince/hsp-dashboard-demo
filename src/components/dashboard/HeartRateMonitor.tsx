@@ -3,7 +3,7 @@ import EcgGraph from "../EcgGraph";
 
 const HeartRateMonitor = () => {
   return (
-    <BigDashboardBlock title="Heart Rate Monitor">
+    <BigDashboardBlock id="graph-container" title="Heart Rate Monitor">
       <EcgGraph />
     </BigDashboardBlock>
   );
