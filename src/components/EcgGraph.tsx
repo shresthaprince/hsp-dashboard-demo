@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import { useCallback, useEffect } from "react";
 import { useSensorData } from "../context/SensorDataContext";
-const dimensions = {
+let dimensions = {
   width: 575,
   height: 500,
   left: 100,
@@ -12,6 +12,10 @@ const dimensions = {
 
 const EcgGraph = () => {
   const { latestEcgData } = useSensorData();
+
+  if (document.getElementById("graph-container")?.clientWidth)
+    dimensions.width =
+      0.9 * document.getElementById("graph-container")!.clientWidth;
 
   const draw = useCallback(() => {
     // Remove current svg
